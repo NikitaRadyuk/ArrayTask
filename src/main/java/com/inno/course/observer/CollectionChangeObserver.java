@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
  * Observer implementation that logs collection changes.
  * Useful for debugging and monitoring collection modifications.
  *
- * @author Your Name
  * @version 1.0
  * @see Observer
  * @see Observable
@@ -30,7 +29,6 @@ public class CollectionChangeObserver implements Observer {
             logger.info("Collection change detected - ID: {}, Size: {}",
                     collection.getId(), collection.size());
 
-            // Optional: Add more detailed logging for debugging
             if (logger.isDebugEnabled()) {
                 logger.debug("Collection elements: {}", (Object) collection.getElements());
             }

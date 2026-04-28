@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Singleton warehouse that stores statistical information for all collections.
  *
- * @author Your Name
  * @version 1.0
  * @see CollectionStatistics
  * @see AbstractNumericArray
@@ -38,10 +37,6 @@ public class Warehouse {
     /**
      * Returns the singleton instance of Warehouse.
      *
-     * <p>This method is thread-safe due to the synchronized keyword.
-     *
-     * <p>Time complexity: O(1)
-     *
      * @return the singleton Warehouse instance
      */
     public static synchronized Warehouse getInstance() {
@@ -55,9 +50,6 @@ public class Warehouse {
     /**
      * Registers a collection in the warehouse and calculates its statistics.
      *
-     * <p>This method is called when a collection is added to the repository.
-     * It computes all statistics for the collection and stores them for future queries.
-     *
      * @param collection the collection to register (must not be null)
      */
     public void registerCollection(AbstractNumericArray<?> collection) {
@@ -68,9 +60,6 @@ public class Warehouse {
 
     /**
      * Removes a collection from the warehouse.
-     *
-     * <p>This method is called when a collection is removed from the repository.
-     * It removes all associated statistics from the warehouse.
      *
      * @param collection the collection to unregister (must not be null)
      */
@@ -89,9 +78,6 @@ public class Warehouse {
     /**
      * Updates statistics for a collection in the warehouse.
      *
-     * <p>This method is called when a collection is updated in the repository.
-     * It recalculates and stores fresh statistics for the collection.
-     *
      * @param collection the collection to update (must not be null)
      */
     public void updateCollection(AbstractNumericArray<?> collection) {
@@ -103,9 +89,6 @@ public class Warehouse {
     /**
      * Called when a collection changes (Observer pattern).
      *
-     * <p>This method is invoked by the repository when any collection element changes.
-     * It triggers a recalculation of statistics for the affected collection.
-     *
      * @param collection the collection that changed (must not be null)
      */
     public void onCollectionChanged(AbstractNumericArray<?> collection) {
@@ -116,9 +99,6 @@ public class Warehouse {
 
     /**
      * Calculates and stores statistics for a collection.
-     *
-     * <p>This method computes sum, minimum, maximum, and average values,
-     * then stores them in the statistics map keyed by collection ID.
      *
      * @param collection the collection to process
      */
@@ -141,8 +121,6 @@ public class Warehouse {
     /**
      * Calculates the sum of all elements in a collection.
      *
-     * <p>Time complexity: O(n) where n is the collection size
-     *
      * @param collection the collection to process
      * @return the sum of all elements
      */
@@ -156,8 +134,6 @@ public class Warehouse {
 
     /**
      * Finds the minimum value in a collection.
-     *
-     * <p>Time complexity: O(n) where n is the collection size
      *
      * @param collection the collection to process
      * @return the minimum value, or NaN if collection is empty
@@ -181,8 +157,6 @@ public class Warehouse {
     /**
      * Finds the maximum value in a collection.
      *
-     * <p>Time complexity: O(n) where n is the collection size
-     *
      * @param collection the collection to process
      * @return the maximum value, or NaN if collection is empty
      */
@@ -205,8 +179,6 @@ public class Warehouse {
     /**
      * Returns the sum for a collection by its ID.
      *
-     * <p>Time complexity: O(1) - constant time lookup
-     *
      * @param collectionId the collection ID
      * @return the sum, or NaN if collection not found
      */
@@ -219,8 +191,6 @@ public class Warehouse {
 
     /**
      * Returns the average for a collection by its ID.
-     *
-     * <p>Time complexity: O(1) - constant time lookup
      *
      * @param collectionId the collection ID
      * @return the average, or NaN if collection not found
@@ -235,8 +205,6 @@ public class Warehouse {
     /**
      * Returns the minimum value for a collection by its ID.
      *
-     * <p>Time complexity: O(1) - constant time lookup
-     *
      * @param collectionId the collection ID
      * @return the minimum value, or NaN if collection not found
      */
@@ -249,8 +217,6 @@ public class Warehouse {
 
     /**
      * Returns the maximum value for a collection by its ID.
-     *
-     * <p>Time complexity: O(1) - constant time lookup
      *
      * @param collectionId the collection ID
      * @return the maximum value, or NaN if collection not found
@@ -265,8 +231,6 @@ public class Warehouse {
     /**
      * Returns the size for a collection by its ID.
      *
-     * <p>Time complexity: O(1) - constant time lookup
-     *
      * @param collectionId the collection ID
      * @return the size, or 0 if collection not found
      */
@@ -280,8 +244,6 @@ public class Warehouse {
     /**
      * Returns all statistics for a collection.
      *
-     * <p>Time complexity: O(1) - constant time lookup
-     *
      * @param collectionId the collection ID
      * @return the CollectionStatistics object, or null if not found
      */
@@ -292,8 +254,6 @@ public class Warehouse {
 
     /**
      * Clears all statistics from the warehouse.
-     *
-     * <p>This method is typically called when the repository is cleared.
      */
     public void clear() {
         int clearedCount = statisticsMap.size();
@@ -303,9 +263,6 @@ public class Warehouse {
 
     /**
      * Logs all stored statistics for debugging purposes.
-     *
-     * <p>This method is useful for monitoring and debugging the system state.
-     * It outputs all stored statistics to the log at INFO level.
      */
     public void displayAllStatistics() {
         if (statisticsMap.isEmpty()) {

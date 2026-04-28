@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 /**
  * Singleton implementation of the Repository interface for managing numeric collections.
  *
- * @author Your Name
  * @version 1.0
  * @see Repository
  * @see AbstractNumericArray

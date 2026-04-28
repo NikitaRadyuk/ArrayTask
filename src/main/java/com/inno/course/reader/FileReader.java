@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 /**
  * Reader class for reading data from text files.
  *
- * @author Your Name
  * @version 1.0
  * @see NumericCollectionException
  * @see Files

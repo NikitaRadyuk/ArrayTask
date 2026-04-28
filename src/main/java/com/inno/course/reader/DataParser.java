@@ -14,7 +14,6 @@ import java.util.List;
  * Parser class for converting file lines into NumericArray objects.
  * Uses validator and factory for parsing and creation.
  *
- * @author Your Name
  * @version 1.0
  * @see DataValidator
  * @see NumericCollectionFactory

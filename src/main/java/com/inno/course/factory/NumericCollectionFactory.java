@@ -11,7 +11,6 @@ import java.lang.reflect.Array;
  * Factory class for creating NumericArray instances from string arrays.
  * Implements the Factory Method pattern for creating numeric collections.
  *
- * @author Your Name
  * @version 1.0
  * @see NumericArray
  * @see NumericCollectionException

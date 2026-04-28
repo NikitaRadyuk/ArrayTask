@@ -7,7 +7,6 @@ import java.util.function.DoublePredicate;
 /**
  * Specification for filtering collections based on their maximum value.
  *
- * @author Your Name
  * @version 1.0
  * @see Specification
  * @see Warehouse

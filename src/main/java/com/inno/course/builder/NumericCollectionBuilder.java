@@ -12,7 +12,6 @@ import java.util.List;
  * Builder class for constructing NumericArray instances.
  * Implements the Builder design pattern for step-by-step collection creation.
  *
- * @author Your Name
  * @version 1.0
  * @see NumericArray
  * @see NumericCollectionException
