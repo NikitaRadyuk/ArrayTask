@@ -68,14 +68,12 @@ public class DataParser {
 
             logger.debug("Processing line {}: '{}'", lineNumber, line);
 
-            // Skip null or empty lines
             if (line == null || line.trim().isEmpty()) {
                 logger.info("Line {} is empty, skipping", lineNumber);
                 skippedLinesCount++;
                 continue;
             }
 
-            // Validate line format
             boolean isValid = validator.isValidLine(line);
             if (!isValid) {
                 logger.warn("Line {} contains invalid data, skipping: '{}'", lineNumber, line);
@@ -83,7 +81,6 @@ public class DataParser {
                 continue;
             }
 
-            // Extract valid numeric values from line
             String[] validValues = validator.parseAndValidate(line);
 
             if (validValues.length == 0) {
@@ -94,7 +91,6 @@ public class DataParser {
 
             logger.debug("Line {} yielded {} valid numeric values", lineNumber, validValues.length);
 
-            // Try to create collection, first as Integer, then as Double
             try {
                 NumericArray<?> collection = tryCreateCollection(validValues, lineNumber);
                 collections.add(collection);
@@ -105,7 +101,6 @@ public class DataParser {
 
             } catch (NumericCollectionException e) {
                 logger.error("Failed to create collection from line {}: {}", lineNumber, e.getMessage());
-                // Continue processing other lines, don't throw
             }
         }
 

@@ -231,7 +231,6 @@ public class Main {
                             warehouse.getAverage(collection.getId())});
 
             if (collection.size() > 0) {
-                @SuppressWarnings("unchecked")
                 AbstractNumericArray<Number> numCollection =
                         (AbstractNumericArray<Number>) collection;
 

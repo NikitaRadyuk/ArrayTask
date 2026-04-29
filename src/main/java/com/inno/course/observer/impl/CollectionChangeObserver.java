@@ -1,6 +1,8 @@
-package com.inno.course.observer;
+package com.inno.course.observer.impl;
 
 import com.inno.course.entity.AbstractNumericArray;
+import com.inno.course.observer.Observable;
+import com.inno.course.observer.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -229,19 +229,6 @@ public class Warehouse {
     }
 
     /**
-     * Returns the size for a collection by its ID.
-     *
-     * @param collectionId the collection ID
-     * @return the size, or 0 if collection not found
-     */
-    public int getSize(String collectionId) {
-        CollectionStatistics stats = statisticsMap.get(collectionId);
-        int result = stats != null ? stats.getSize() : 0;
-        logger.trace("Retrieved size for {}: {}", collectionId, result);
-        return result;
-    }
-
-    /**
      * Returns all statistics for a collection.
      *
      * @param collectionId the collection ID
