@@ -4,7 +4,7 @@ import com.inno.course.observer.Observable;
 import com.inno.course.observer.Observer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Abstract base class for numeric collections.
@@ -15,8 +15,11 @@ import java.util.UUID;
  */
 public abstract class AbstractNumericArray<T extends Number> implements Observable {
 
+    /** Atomic counter for generating unique IDs across all instances */
+    private static final AtomicLong idCounter = new AtomicLong(1);
+
     /** Unique identifier for the collection */
-    protected final String id;
+    protected final Long id;
 
     /** Array of elements stored in the collection */
     protected T[] elements;
@@ -34,7 +37,7 @@ public abstract class AbstractNumericArray<T extends Number> implements Observab
         if (elements == null) {
             throw new IllegalArgumentException("Elements array cannot be null");
         }
-        this.id = UUID.randomUUID().toString();
+        this.id = idCounter.getAndIncrement();
         this.elements = elements.clone();
         this.observers = new ArrayList<>();
     }
@@ -44,7 +47,7 @@ public abstract class AbstractNumericArray<T extends Number> implements Observab
      *
      * @return the collection ID
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -154,6 +157,13 @@ public abstract class AbstractNumericArray<T extends Number> implements Observab
     }
 
     /**
+     * Resets the ID counter (useful for testing purposes).
+     */
+    public static void resetIdCounter() {
+        idCounter.set(1);
+    }
+
+    /**
      * Returns a string representation of the collection.
      *
      * @return a string containing the collection ID, size, and elements
@@ -161,7 +171,7 @@ public abstract class AbstractNumericArray<T extends Number> implements Observab
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("NumericCollection{")
-                .append("id='").append(id).append('\'')
+                .append("id=").append(id)
                 .append(", size=").append(elements.length)
                 .append(", elements=[");
 

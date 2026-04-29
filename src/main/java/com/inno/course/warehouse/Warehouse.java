@@ -23,7 +23,7 @@ public class Warehouse {
     private static Warehouse instance;
 
     /** Map storing statistics for each collection by its ID */
-    private final Map<String, CollectionStatistics> statisticsMap;
+    private final Map<Long, CollectionStatistics> statisticsMap;
 
     /**
      * Private constructor for Singleton pattern.
@@ -53,9 +53,10 @@ public class Warehouse {
      * @param collection the collection to register (must not be null)
      */
     public void registerCollection(AbstractNumericArray<?> collection) {
-        logger.debug("Registering collection: {}", collection.getId());
+        Long collectionId = Long.valueOf(collection.getId());
+        logger.debug("Registering collection: {}", collectionId);
         updateStatistics(collection);
-        logger.info("Collection registered in warehouse: {}", collection.getId());
+        logger.info("Collection registered in warehouse: {}", collectionId);
     }
 
     /**
@@ -64,7 +65,7 @@ public class Warehouse {
      * @param collection the collection to unregister (must not be null)
      */
     public void unregisterCollection(AbstractNumericArray<?> collection) {
-        String collectionId = collection.getId();
+        Long collectionId = Long.valueOf(collection.getId());
         logger.debug("Unregistering collection: {}", collectionId);
 
         CollectionStatistics removed = statisticsMap.remove(collectionId);
@@ -81,9 +82,10 @@ public class Warehouse {
      * @param collection the collection to update (must not be null)
      */
     public void updateCollection(AbstractNumericArray<?> collection) {
-        logger.debug("Updating statistics for collection: {}", collection.getId());
+        Long collectionId = Long.valueOf(collection.getId());
+        logger.debug("Updating statistics for collection: {}", collectionId);
         updateStatistics(collection);
-        logger.debug("Collection statistics updated: {}", collection.getId());
+        logger.debug("Collection statistics updated: {}", collectionId);
     }
 
     /**
@@ -92,9 +94,10 @@ public class Warehouse {
      * @param collection the collection that changed (must not be null)
      */
     public void onCollectionChanged(AbstractNumericArray<?> collection) {
-        logger.trace("Collection change detected: {}", collection.getId());
+        Long collectionId = Long.valueOf(collection.getId());
+        logger.trace("Collection change detected: {}", collectionId);
         updateStatistics(collection);
-        logger.debug("Warehouse notified of collection change: {}", collection.getId());
+        logger.debug("Warehouse notified of collection change: {}", collectionId);
     }
 
     /**
@@ -103,7 +106,7 @@ public class Warehouse {
      * @param collection the collection to process
      */
     private void updateStatistics(AbstractNumericArray<?> collection) {
-        String collectionId = collection.getId();
+        Long collectionId = Long.valueOf(collection.getId());
         logger.trace("Calculating statistics for collection: {}", collectionId);
 
         double sum = calculateSum(collection);
@@ -182,7 +185,7 @@ public class Warehouse {
      * @param collectionId the collection ID
      * @return the sum, or NaN if collection not found
      */
-    public double getSum(String collectionId) {
+    public double getSum(Long collectionId) {
         CollectionStatistics stats = statisticsMap.get(collectionId);
         double result = stats != null ? stats.getSum() : Double.NaN;
         logger.trace("Retrieved sum for {}: {}", collectionId, result);
@@ -195,7 +198,7 @@ public class Warehouse {
      * @param collectionId the collection ID
      * @return the average, or NaN if collection not found
      */
-    public double getAverage(String collectionId) {
+    public double getAverage(Long collectionId) {
         CollectionStatistics stats = statisticsMap.get(collectionId);
         double result = stats != null ? stats.getAverage() : Double.NaN;
         logger.trace("Retrieved average for {}: {}", collectionId, result);
@@ -208,7 +211,7 @@ public class Warehouse {
      * @param collectionId the collection ID
      * @return the minimum value, or NaN if collection not found
      */
-    public double getMin(String collectionId) {
+    public double getMin(Long collectionId) {
         CollectionStatistics stats = statisticsMap.get(collectionId);
         double result = stats != null ? stats.getMin() : Double.NaN;
         logger.trace("Retrieved min for {}: {}", collectionId, result);
@@ -221,10 +224,23 @@ public class Warehouse {
      * @param collectionId the collection ID
      * @return the maximum value, or NaN if collection not found
      */
-    public double getMax(String collectionId) {
+    public double getMax(Long collectionId) {
         CollectionStatistics stats = statisticsMap.get(collectionId);
         double result = stats != null ? stats.getMax() : Double.NaN;
         logger.trace("Retrieved max for {}: {}", collectionId, result);
+        return result;
+    }
+
+    /**
+     * Returns the size for a collection by its ID.
+     *
+     * @param collectionId the collection ID
+     * @return the size, or 0 if collection not found
+     */
+    public int getSize(Long collectionId) {
+        CollectionStatistics stats = statisticsMap.get(collectionId);
+        int result = stats != null ? stats.getSize() : 0;
+        logger.trace("Retrieved size for {}: {}", collectionId, result);
         return result;
     }
 
@@ -234,7 +250,7 @@ public class Warehouse {
      * @param collectionId the collection ID
      * @return the CollectionStatistics object, or null if not found
      */
-    public CollectionStatistics getStatistics(String collectionId) {
+    public CollectionStatistics getStatistics(Long collectionId) {
         logger.debug("Retrieving all statistics for: {}", collectionId);
         return statisticsMap.get(collectionId);
     }
@@ -258,9 +274,8 @@ public class Warehouse {
         }
 
         logger.info("=== Warehouse Statistics ===");
-        for (Map.Entry<String, CollectionStatistics> entry : statisticsMap.entrySet()) {
-            String shortId = entry.getKey().substring(0, Math.min(8, entry.getKey().length()));
-            logger.info("Collection {}: {}", shortId, entry.getValue());
+        for (Map.Entry<Long, CollectionStatistics> entry : statisticsMap.entrySet()) {
+            logger.info("Collection {}: {}", entry.getKey(), entry.getValue());
         }
     }
 }

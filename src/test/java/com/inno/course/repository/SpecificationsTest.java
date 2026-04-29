@@ -2,6 +2,7 @@ package com.inno.course.repository;
 
 import com.inno.course.entity.AbstractNumericArray;
 import com.inno.course.entity.NumericArray;
+import com.inno.course.repository.impl.CollectionRepository;
 import com.inno.course.repository.specifications.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,8 +70,6 @@ public class SpecificationsTest {
         assertEquals(1, result.size());
         assertEquals(array2.getId(), result.get(0).getId());
     }
-
-    // ========== SIZE SPECIFICATIONS ==========
 
     @Test
     @DisplayName("SizeSpecification - greater than")

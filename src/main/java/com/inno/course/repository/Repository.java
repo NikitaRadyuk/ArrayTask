@@ -22,7 +22,7 @@ public interface Repository {
      *
      * @param id the ID of the collection to remove
      */
-    void remove(String id);
+    void remove(Long id);
 
     /**
      * Removes a collection from the repository.
@@ -37,7 +37,7 @@ public interface Repository {
      * @param id the ID to search for
      * @return the collection, or null if not found
      */
-    AbstractNumericArray<?> findById(String id);
+    AbstractNumericArray<?> findById(Long id);
 
     /**
      * Finds a collection by its name.

@@ -24,7 +24,7 @@ public class CollectionSumComparator implements Comparator<AbstractNumericArray<
      *
      * @param first the first collection
      * @param second the second collection
-     * @return negative if first sum < second sum, zero if equal, positive otherwise
+     * @return negative if first sum less than second sum, zero if equal, positive otherwise
      */
     @Override
     public int compare(AbstractNumericArray<?> first, AbstractNumericArray<?> second) {

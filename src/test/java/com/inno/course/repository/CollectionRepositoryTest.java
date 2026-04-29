@@ -2,6 +2,7 @@ package com.inno.course.repository;
 
 import com.inno.course.entity.AbstractNumericArray;
 import com.inno.course.entity.NumericArray;
+import com.inno.course.repository.impl.CollectionRepository;
 import com.inno.course.repository.specifications.*;
 import com.inno.course.warehouse.Warehouse;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,20 +25,18 @@ public class CollectionRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        // Clean repository before each test
+        NumericArray.resetIdCounter();
+
         repository = CollectionRepository.getInstance();
         repository.clear();
 
         warehouse = Warehouse.getInstance();
 
-        // Create test arrays
         array1 = new NumericArray<>(new Integer[]{1, 2, 3, 4, 5});
         array2 = new NumericArray<>(new Integer[]{10, 20, 30, 40, 50});
         array3 = new NumericArray<>(new Double[]{1.1, 2.2, 3.3, 4.4, 5.5});
         array4 = new NumericArray<>(new Integer[]{100, 200, 300});
     }
-
-    // ==================== ADD TESTS ====================
 
     @Test
     @DisplayName("Should add collection to repository")
@@ -75,7 +74,7 @@ public class CollectionRepositoryTest {
         repository.add(array1);
         repository.add(array2);
 
-        String idToRemove = array1.getId();
+        Long idToRemove = array1.getId();
         repository.remove(idToRemove);
 
         assertEquals(1, repository.size());
@@ -101,7 +100,7 @@ public class CollectionRepositoryTest {
     void testRemoveNonExistentId() {
         repository.add(array1);
 
-        repository.remove("non-existent-id");
+        repository.remove(999L);
 
         assertEquals(1, repository.size());
     }
@@ -116,7 +115,6 @@ public class CollectionRepositoryTest {
         assertEquals(1, repository.size());
     }
 
-    // ==================== FIND TESTS ====================
 
     @Test
     @DisplayName("Should find collection by id")
@@ -124,7 +122,7 @@ public class CollectionRepositoryTest {
         repository.add(array1);
         repository.add(array2);
 
-        NumericArray<?> found = (NumericArray<?>) repository.findById(array2.getId());
+        AbstractNumericArray<?> found = repository.findById(array2.getId());
 
         assertNotNull(found);
         assertEquals(array2.getId(), found.getId());
@@ -136,7 +134,7 @@ public class CollectionRepositoryTest {
     void testFindByNonExistentId() {
         repository.add(array1);
 
-        NumericArray<?> found = (NumericArray<?>) repository.findById("non-existent-id");
+        AbstractNumericArray<?> found = repository.findById(999L);
 
         assertNull(found);
     }
@@ -160,7 +158,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = SumSpecification.greaterThan(100);
+        Specification spec = SumSpecification.greaterThan(100.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(2, result.size());
@@ -175,7 +173,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = SumSpecification.lessThan(100);
+        Specification spec = SumSpecification.lessThan(100.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
@@ -189,7 +187,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = SumSpecification.between(100, 500);
+        Specification spec = SumSpecification.between(100.0, 500.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
@@ -257,7 +255,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = AverageSpecification.greaterThan(50);
+        Specification spec = AverageSpecification.greaterThan(50.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
@@ -271,7 +269,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = AverageSpecification.between(10, 100);
+        Specification spec = AverageSpecification.between(10.0, 100.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
@@ -285,7 +283,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = MinSpecification.greaterThan(50);
+        Specification spec = MinSpecification.greaterThan(50.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
@@ -299,7 +297,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        Specification spec = MaxSpecification.lessThan(100);
+        Specification spec = MaxSpecification.lessThan(100.0);
         List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(2, result.size());
@@ -313,14 +311,13 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         List<AbstractNumericArray<?>> result = repository.findAll().stream()
-                .filter(SumSpecification.greaterThan(100)::isSatisfiedBy)
+                .filter(SumSpecification.greaterThan(100.0)::isSatisfiedBy)
                 .filter(SizeSpecification.greaterThanOrEqual(5)::isSatisfiedBy)
                 .collect(Collectors.toList());
 
         assertEquals(1, result.size());
         assertEquals(array2.getId(), result.get(0).getId());
     }
-
 
     @Test
     @DisplayName("Should update collection in repository")
@@ -330,8 +327,9 @@ public class CollectionRepositoryTest {
         array1.setElement(0, 999);
         repository.update(array1);
 
-        NumericArray<?> updated = (NumericArray<?>) repository.findById(array1.getId());
-        assertEquals(999, updated.getElement(0));
+        AbstractNumericArray<?> updated = repository.findById(array1.getId());
+        assertNotNull(updated);
+        assertEquals(999, updated.getElements()[0]);
     }
 
     @Test
@@ -377,7 +375,6 @@ public class CollectionRepositoryTest {
         assertNull(repository.findById(array3.getId()));
     }
 
-
     @Test
     @DisplayName("Should return same instance of repository")
     void testSingletonInstance() {
@@ -385,5 +382,26 @@ public class CollectionRepositoryTest {
         CollectionRepository instance2 = CollectionRepository.getInstance();
 
         assertSame(instance1, instance2);
+    }
+
+    @Test
+    @DisplayName("Should handle empty repository queries")
+    void testQueryEmptyRepository() {
+        Specification spec = SumSpecification.greaterThan(100.0);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
+
+        assertNotNull(result);
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    @DisplayName("Should handle repository with duplicate IDs (should not happen but test)")
+    void testDuplicateIdHandling() {
+        repository.add(array1);
+
+        NumericArray<Integer> duplicateArray = new NumericArray<>(new Integer[]{9, 8, 7});
+        repository.add(duplicateArray);
+
+        assertEquals(2, repository.size());
     }
 }

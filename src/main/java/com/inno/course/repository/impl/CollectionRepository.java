@@ -1,7 +1,8 @@
-package com.inno.course.repository;
+package com.inno.course.repository.impl;
 
 import com.inno.course.entity.AbstractNumericArray;
 import com.inno.course.observer.Observer;
+import com.inno.course.repository.Repository;
 import com.inno.course.repository.specifications.Specification;
 import com.inno.course.warehouse.Warehouse;
 import org.apache.logging.log4j.LogManager;
@@ -31,10 +32,10 @@ public class CollectionRepository implements Repository {
     private static CollectionRepository instance;
 
     /** Main storage map: collection ID → collection object */
-    private final Map<String, AbstractNumericArray<?>> storage;
+    private final Map<Long, AbstractNumericArray<?>> storage;
 
     /** Map for storing observers associated with each collection */
-    private final Map<String, Observer> observerMap;
+    private final Map<Long, Observer> observerMap;
 
     /** Warehouse instance for statistics management */
     private final Warehouse warehouse;
@@ -75,7 +76,7 @@ public class CollectionRepository implements Repository {
             return;
         }
 
-        String collectionId = collection.getId();
+        Long collectionId = collection.getId();
         logger.debug("Adding collection with id: {}", collectionId);
 
         storage.put(collectionId, collection);
@@ -102,7 +103,7 @@ public class CollectionRepository implements Repository {
      * @param id the ID of the collection to remove
      */
     @Override
-    public void remove(String id) {
+    public void remove(Long id) {
         logger.debug("Attempting to remove collection with id: {}", id);
 
         AbstractNumericArray<?> removed = storage.remove(id);
@@ -140,7 +141,7 @@ public class CollectionRepository implements Repository {
      * @return the collection if found, null otherwise
      */
     @Override
-    public AbstractNumericArray<?> findById(String id) {
+    public AbstractNumericArray<?> findById(Long id) {
         logger.debug("Finding collection by id: {}", id);
         return storage.get(id);
     }
@@ -198,7 +199,7 @@ public class CollectionRepository implements Repository {
             return;
         }
 
-        String collectionId = collection.getId();
+        Long collectionId = collection.getId();
 
         if (storage.containsKey(collectionId)) {
             storage.put(collectionId, collection);
@@ -228,8 +229,8 @@ public class CollectionRepository implements Repository {
         logger.info("Clearing repository, current size: {}", storage.size());
 
         // Remove all observers before clearing
-        for (Map.Entry<String, AbstractNumericArray<?>> entry : storage.entrySet()) {
-            String id = entry.getKey();
+        for (Map.Entry<Long, AbstractNumericArray<?>> entry : storage.entrySet()) {
+            Long id = entry.getKey();
             AbstractNumericArray<?> collection = entry.getValue();
             Observer collectionObserver = observerMap.get(id);
 
