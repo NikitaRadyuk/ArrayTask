@@ -1,7 +1,5 @@
 package com.inno.course.entity;
 
-import com.inno.course.entity.AbstractNumericArray;
-import com.inno.course.entity.NumericArray;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

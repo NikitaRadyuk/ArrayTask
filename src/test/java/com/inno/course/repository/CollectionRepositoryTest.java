@@ -1,5 +1,6 @@
 package com.inno.course.repository;
 
+import com.inno.course.entity.AbstractNumericArray;
 import com.inno.course.entity.NumericArray;
 import com.inno.course.repository.specifications.*;
 import com.inno.course.warehouse.Warehouse;
@@ -67,8 +68,6 @@ public class CollectionRepositoryTest {
 
         assertEquals(0, repository.size());
     }
-
-    // ==================== REMOVE TESTS ====================
 
     @Test
     @DisplayName("Should remove collection by id")
@@ -149,12 +148,10 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array3);
 
-        List<com.inno.course.entity.AbstractNumericArray<?>> all = repository.findAll();
+        List<AbstractNumericArray<?>> all = repository.findAll();
 
         assertEquals(3, all.size());
     }
-
-    // ==================== QUERY TESTS ====================
 
     @Test
     @DisplayName("Should query collections by sum greater than threshold")
@@ -164,7 +161,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SumSpecification.greaterThan(100);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(2, result.size());
         assertTrue(result.stream().anyMatch(c -> c.getId().equals(array2.getId())));
@@ -179,7 +176,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SumSpecification.lessThan(100);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array1.getId(), result.get(0).getId());
@@ -193,7 +190,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SumSpecification.between(100, 500);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array2.getId(), result.get(0).getId());
@@ -207,7 +204,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SizeSpecification.greaterThan(3);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(2, result.size());
     }
@@ -220,7 +217,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SizeSpecification.lessThan(4);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array4.getId(), result.get(0).getId());
@@ -234,7 +231,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SizeSpecification.equalTo(5);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(2, result.size());
     }
@@ -247,7 +244,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = SizeSpecification.between(2, 4);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array4.getId(), result.get(0).getId());
@@ -261,7 +258,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = AverageSpecification.greaterThan(50);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array4.getId(), result.get(0).getId());
@@ -275,7 +272,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = AverageSpecification.between(10, 100);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array2.getId(), result.get(0).getId());
@@ -289,7 +286,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = MinSpecification.greaterThan(50);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(1, result.size());
         assertEquals(array4.getId(), result.get(0).getId());
@@ -303,7 +300,7 @@ public class CollectionRepositoryTest {
         repository.add(array4);
 
         Specification spec = MaxSpecification.lessThan(100);
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.query(spec);
+        List<AbstractNumericArray<?>> result = repository.query(spec);
 
         assertEquals(2, result.size());
     }
@@ -315,7 +312,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         repository.add(array4);
 
-        List<com.inno.course.entity.AbstractNumericArray<?>> result = repository.findAll().stream()
+        List<AbstractNumericArray<?>> result = repository.findAll().stream()
                 .filter(SumSpecification.greaterThan(100)::isSatisfiedBy)
                 .filter(SizeSpecification.greaterThanOrEqual(5)::isSatisfiedBy)
                 .collect(Collectors.toList());
@@ -324,7 +321,6 @@ public class CollectionRepositoryTest {
         assertEquals(array2.getId(), result.get(0).getId());
     }
 
-    // ==================== UPDATE TESTS ====================
 
     @Test
     @DisplayName("Should update collection in repository")
@@ -348,8 +344,6 @@ public class CollectionRepositoryTest {
         assertEquals(0, repository.size());
         assertNull(repository.findById(newArray.getId()));
     }
-
-    // ==================== SIZE AND CLEAR TESTS ====================
 
     @Test
     @DisplayName("Should return correct repository size")
@@ -383,7 +377,6 @@ public class CollectionRepositoryTest {
         assertNull(repository.findById(array3.getId()));
     }
 
-    // ==================== SINGLETON TESTS ====================
 
     @Test
     @DisplayName("Should return same instance of repository")
