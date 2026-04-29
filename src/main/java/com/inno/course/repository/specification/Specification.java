@@ -1,4 +1,4 @@
-package com.inno.course.repository.specifications;
+package com.inno.course.repository.specification;
 
 import com.inno.course.entity.AbstractNumericArray;
 

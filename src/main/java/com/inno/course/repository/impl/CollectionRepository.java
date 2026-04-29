@@ -3,7 +3,7 @@ package com.inno.course.repository.impl;
 import com.inno.course.entity.AbstractNumericArray;
 import com.inno.course.observer.Observer;
 import com.inno.course.repository.Repository;
-import com.inno.course.repository.specifications.Specification;
+import com.inno.course.repository.specification.Specification;
 import com.inno.course.warehouse.Warehouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -102,8 +102,7 @@ public class CollectionRepository implements Repository {
      *
      * @param id the ID of the collection to remove
      */
-    @Override
-    public void remove(Long id) {
+    public void removeById(Long id) {
         logger.debug("Attempting to remove collection with id: {}", id);
 
         AbstractNumericArray<?> removed = storage.remove(id);
@@ -128,7 +127,7 @@ public class CollectionRepository implements Repository {
     @Override
     public void remove(AbstractNumericArray<?> collection) {
         if (collection != null) {
-            remove(collection.getId());
+            removeById(collection.getId());
         } else {
             logger.warn("Attempted to remove null collection");
         }
@@ -144,18 +143,6 @@ public class CollectionRepository implements Repository {
     public AbstractNumericArray<?> findById(Long id) {
         logger.debug("Finding collection by id: {}", id);
         return storage.get(id);
-    }
-
-    /**
-     * Finds a collection by its name.
-     *
-     * @param name the name to search for
-     * @return always returns null
-     */
-    @Override
-    public AbstractNumericArray<?> findByName(String name) {
-        logger.warn("findByName is not supported (name field removed)");
-        return null;
     }
 
     /**

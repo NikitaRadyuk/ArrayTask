@@ -10,7 +10,9 @@ import com.inno.course.reader.DataParser;
 import com.inno.course.reader.FileReader;
 import com.inno.course.repository.Repository;
 import com.inno.course.repository.impl.CollectionRepository;
-import com.inno.course.repository.specifications.*;
+import com.inno.course.repository.specification.impl.AverageSpecification;
+import com.inno.course.repository.specification.impl.SizeSpecification;
+import com.inno.course.repository.specification.impl.SumSpecification;
 import com.inno.course.service.StatisticsService;
 import com.inno.course.service.impl.StatisticsServiceImpl;
 import com.inno.course.service.SortingService;
@@ -163,7 +165,7 @@ public class Main {
             logger.log(Level.INFO, "Collections in repository: IDs {0}, {1}, {2}",
                     new Object[]{collection1.getId(), collection2.getId(), collection3.getId()});
 
-            repository.remove(collection2.getId());
+            repository.removeById(collection2.getId());
             logger.log(Level.INFO, "Repository size after removing collection {0}: {1}",
                     new Object[]{collection2.getId(), repository.size()});
 

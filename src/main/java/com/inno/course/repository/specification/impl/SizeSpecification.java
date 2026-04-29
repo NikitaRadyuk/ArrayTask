@@ -1,6 +1,8 @@
-package com.inno.course.repository.specifications;
+package com.inno.course.repository.specification.impl;
 
 import com.inno.course.entity.AbstractNumericArray;
+import com.inno.course.repository.specification.Specification;
+
 import java.util.function.IntPredicate;
 
 /**

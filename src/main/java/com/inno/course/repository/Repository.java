@@ -1,7 +1,7 @@
 package com.inno.course.repository;
 
 import com.inno.course.entity.AbstractNumericArray;
-import com.inno.course.repository.specifications.Specification;
+import com.inno.course.repository.specification.Specification;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ public interface Repository {
      *
      * @param id the ID of the collection to remove
      */
-    void remove(Long id);
+    void removeById(Long id);
 
     /**
      * Removes a collection from the repository.
@@ -38,15 +38,6 @@ public interface Repository {
      * @return the collection, or null if not found
      */
     AbstractNumericArray<?> findById(Long id);
-
-    /**
-     * Finds a collection by its name.
-     * Note: Name field is not used in current implementation.
-     *
-     * @param name the name to search for
-     * @return always returns null (not supported)
-     */
-    AbstractNumericArray<?> findByName(String name);
 
     /**
      * Returns all collections in the repository.

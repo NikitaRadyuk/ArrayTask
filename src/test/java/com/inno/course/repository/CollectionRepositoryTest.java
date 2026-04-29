@@ -3,7 +3,8 @@ package com.inno.course.repository;
 import com.inno.course.entity.AbstractNumericArray;
 import com.inno.course.entity.NumericArray;
 import com.inno.course.repository.impl.CollectionRepository;
-import com.inno.course.repository.specifications.*;
+import com.inno.course.repository.specification.*;
+import com.inno.course.repository.specification.impl.*;
 import com.inno.course.warehouse.Warehouse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
 
         Long idToRemove = array1.getId();
-        repository.remove(idToRemove);
+        repository.removeById(idToRemove);
 
         assertEquals(1, repository.size());
         assertNull(repository.findById(idToRemove));
@@ -100,7 +101,7 @@ public class CollectionRepositoryTest {
     void testRemoveNonExistentId() {
         repository.add(array1);
 
-        repository.remove(999L);
+        repository.removeById(999L);
 
         assertEquals(1, repository.size());
     }
@@ -354,7 +355,7 @@ public class CollectionRepositoryTest {
         repository.add(array2);
         assertEquals(2, repository.size());
 
-        repository.remove(array1.getId());
+        repository.removeById(array1.getId());
         assertEquals(1, repository.size());
     }
 
